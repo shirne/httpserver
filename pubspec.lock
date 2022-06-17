@@ -183,6 +183,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  mysql1:
+    dependency: "direct main"
+    description:
+      name: mysql1
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.19.2"
   node_preamble:
     dependency: transitive
     description:
