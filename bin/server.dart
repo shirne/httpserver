@@ -9,6 +9,7 @@ import 'src/controller/index.dart';
 import 'src/controller/post.dart';
 import 'src/core/middleware.dart';
 import 'src/env.dart';
+import 'src/socket.dart';
 
 // Configure routes.
 final _router = Router(notFoundHandler: _notFoundHandler)
@@ -42,7 +43,7 @@ void main(List<String> args) async {
 
   // Configure a pipeline that logs requests.
   final _handler = Cascade()
-      //.add(webSocketHandler)
+      .add(webSocketHandler)
       .add(staticFileHandler)
       .add(application)
       .handler;
