@@ -6,6 +6,7 @@ class Env {
   final String port;
   final String ip;
   final String domain;
+  final String documentRoot;
   final List<String> alias;
   final bool isSSL;
   final String hostName;
@@ -17,6 +18,7 @@ class Env {
       : port = getItem(file, 'PORT') ?? '8080',
         ip = getItem(file, 'IP') ?? '',
         domain = getItem(file, 'DOMAIN') ?? '',
+        documentRoot = getItem(file, 'ROOT') ?? '',
         alias = (getItem(file, 'ALIAS') ?? '').split(' '),
         isSSL = getItem(file, 'IS_SSL') == '1',
         hostName = getItem(file, 'HOSTNAME', 'DATABASE') ?? '',

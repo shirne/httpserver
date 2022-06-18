@@ -3,5 +3,8 @@
 .packages
 .env
 
+htdocs/*
+!htdocs/favicon.ico
+
 # Conventional directory for build output.
 build/
