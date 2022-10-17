@@ -42,7 +42,7 @@ void main(List<String> args) async {
   );
 
   // Configure a pipeline that logs requests.
-  final _handler = Cascade()
+  final handler = Cascade()
       .add(webSocketHandler)
       .add(staticFileHandler)
       .add(application)
@@ -50,7 +50,7 @@ void main(List<String> args) async {
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(env.port);
-  final server = await serve(_handler, ip, port);
+  final server = await serve(handler, ip, port);
   print('Server listening on port ${ip.address}:${server.port} '
       'with document root ${env.documentRoot}');
 }

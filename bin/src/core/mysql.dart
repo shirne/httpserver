@@ -48,7 +48,7 @@ class Mysql {
     final whereStr = whereOr == null ? '' : ' WHERE $whereOr';
     final orderStr = order == null ? '' : ' ORDER BY $order';
 
-    final sql = "SELECT $fields FROM `$table` $whereStr $orderStr";
+    final sql = 'SELECT $fields FROM `$table` $whereStr $orderStr';
     final result = await execute(sql);
     for (final row in result.rows) {
       return (dataParser ?? (data) => data as T).call(row.assoc());
@@ -68,7 +68,7 @@ class Mysql {
     final whereStr = whereOr == null ? '' : ' WHERE $whereOr';
     final orderStr = order == null ? '' : ' ORDER BY $order';
 
-    final sql = "SELECT $fields FROM `$table` $whereStr $orderStr";
+    final sql = 'SELECT $fields FROM `$table` $whereStr $orderStr';
     final result = await execute(sql);
     final list = <T>[];
     for (final row in result.rows) {
@@ -86,7 +86,7 @@ class Mysql {
       values.add('?');
     }
     final stmt = await conn.prepare(
-      "INSERT INTO `$table` "
+      'INSERT INTO `$table` '
       "(`${fields.join('`, `')}`)"
       " VALUES (${values.join(', ')})",
     );
@@ -100,7 +100,7 @@ class Mysql {
       sets.add('`$k` = ?');
     }
     final stmt = await conn.prepare(
-      "UPDATE `$table` SET"
+      'UPDATE `$table` SET'
       " ${sets.join(', ')}",
     );
     final result = await stmt.execute(data.values.toList());
@@ -114,7 +114,7 @@ class Mysql {
   }) async {
     final whereOr = where ?? toWhere(condition);
     final whereStr = whereOr == null ? '' : ' WHERE $whereOr';
-    final sql = "DELETE FROM `$table` $whereStr";
+    final sql = 'DELETE FROM `$table` $whereStr';
     final result = await execute(sql);
     return result.affectedRows.toInt() > 0;
   }

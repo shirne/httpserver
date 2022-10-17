@@ -41,8 +41,11 @@ class Env {
     return _parsed!;
   }
 
-  static String? getItem(String file, String option,
-      [String name = 'default']) {
+  static String? getItem(
+    String file,
+    String option, [
+    String name = 'default',
+  ]) {
     return parse(file).get(name, option);
   }
 

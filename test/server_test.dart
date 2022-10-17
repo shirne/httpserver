@@ -1,6 +1,5 @@
 import 'package:http/http.dart';
 import 'package:test/test.dart';
-import 'package:test_process/test_process.dart';
 
 import 'dart:io' as io;
 
@@ -17,32 +16,33 @@ void main() {
   });
 
   test('Root', () async {
-    final response = await get(Uri.parse(host + '/'));
+    final response = await get(Uri.parse('$host/'));
     expect(response.statusCode, 200);
     expect(response.body, '{"code":0,"message":"ok","data":"index"}');
   });
 
   test('Echo', () async {
-    final response = await get(Uri.parse(host + '/echo/hello'));
+    final response = await get(Uri.parse('$host/echo/hello'));
     expect(response.statusCode, 200);
     expect(response.body, 'hello\n');
   });
   test('404', () async {
-    final response = await get(Uri.parse(host + '/foobar'));
+    final response = await get(Uri.parse('$host/foobar'));
     expect(response.statusCode, 404);
   });
 
   test('websocket', () async {
-    io.WebSocket webSocket = await io.WebSocket.connect('ws://127.0.0.1:8080');
+    final webSocket = await io.WebSocket.connect('ws://127.0.0.1:8080');
     print(webSocket.readyState);
     webSocket.listen(
-        (event) {
-          print(event);
-        },
-        onDone: () => print('closed'),
-        onError: (e) {
-          print('error:$e');
-        });
+      (event) {
+        print(event);
+      },
+      onDone: () => print('closed'),
+      onError: (e) {
+        print('error:$e');
+      },
+    );
 
     webSocket.add('put data');
     await webSocket.close();
