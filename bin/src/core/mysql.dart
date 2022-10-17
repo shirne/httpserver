@@ -17,7 +17,7 @@ class Mysql {
   Mysql._(Env env)
       : conn = MySQLConnectionPool(
           host: env.hostName,
-          port: 3306,
+          port: env.dataport,
           userName: env.userName,
           password: env.password,
           maxConnections: 10,
@@ -32,7 +32,7 @@ class Mysql {
     if (condition == null || condition.isEmpty) return null;
     return [
       for (MapEntry item in condition.entries)
-        '`${item.key}`=\'${item.value.toString()}\'',
+        '`${item.key}`=\'${item.value}\'',
     ].join(' $joiner ');
   }
 

@@ -10,6 +10,7 @@ class Env {
   final List<String> alias;
   final bool isSSL;
   final String hostName;
+  final int dataport;
   final String database;
   final String userName;
   final String password;
@@ -22,6 +23,9 @@ class Env {
         alias = (getItem(file, 'ALIAS') ?? '').split(' '),
         isSSL = getItem(file, 'IS_SSL') == '1',
         hostName = getItem(file, 'HOSTNAME', 'DATABASE') ?? '',
+        dataport =
+            int.tryParse(getItem(file, 'DATABASE_PORT', 'DATABASE') ?? '') ??
+                3306,
         database = getItem(file, 'DATABASE', 'DATABASE') ?? '',
         userName = getItem(file, 'USERNAME', 'DATABASE') ?? '',
         password = getItem(file, 'PASSWORD', 'DATABASE') ?? '';
