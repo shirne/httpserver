@@ -7,6 +7,7 @@ import 'package:shelf_static/shelf_static.dart';
 
 import 'src/controller/index.dart';
 import 'src/controller/post.dart';
+import 'src/controller/user.dart';
 import 'src/core/middleware.dart';
 import 'src/env.dart';
 import 'src/socket.dart';
@@ -14,6 +15,7 @@ import 'src/socket.dart';
 // Configure routes.
 final _router = Router(notFoundHandler: _notFoundHandler)
   ..all('/post/<action>', (request) => PostController(request).handler())
+  ..all('/user/<action>', (request) => UserController(request).handler())
   ..get('/', (request) => IndexController(request).handler())
   ..get('/echo/<message>', _echoHandler);
 

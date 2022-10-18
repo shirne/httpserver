@@ -1,8 +1,7 @@
 import 'package:mysql_client/mysql_client.dart';
 
 import '../env.dart';
-
-typedef DataParser<T> = T? Function(Map<String, dynamic>);
+import '../globals.dart';
 
 class Mysql {
   final MySQLConnectionPool conn;
@@ -10,7 +9,7 @@ class Mysql {
   static Mysql? _instance;
 
   factory Mysql({Env? env}) {
-    _instance ??= Mysql._(env!);
+    _instance ??= Mysql._(env ?? Env());
     return _instance!;
   }
 
