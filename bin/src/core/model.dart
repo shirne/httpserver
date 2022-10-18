@@ -7,7 +7,7 @@ abstract class Model<T> {
 
   Model copyWith();
 
-  Json toJson();
+  Json toJson([bool excludePrimary = false]);
 
   @override
   String toString() => jsonEncode(toJson());

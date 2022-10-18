@@ -96,8 +96,8 @@ class User extends Model<int> {
   }
 
   @override
-  Json toJson() => {
-        'id': id,
+  Json toJson([bool excludePrimary = false]) => {
+        if (!excludePrimary) 'id': id,
         'username': username,
         'password': password,
         'salt': salt,

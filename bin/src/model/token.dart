@@ -36,7 +36,7 @@ class Token extends Model<String> {
   }
 
   @override
-  Json toJson() => {
+  Json toJson([bool excludePrimary = false]) => {
         'token': token,
         'refresh_token': refreshToken,
         'expire_in': expireIn,

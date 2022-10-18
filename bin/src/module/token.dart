@@ -1,34 +1,14 @@
 import '../core/module.dart';
+import '../globals.dart';
 import '../model/token.dart';
 
 class TokenModule extends Module<Token, String> {
   @override
-  bool delete(String value) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
+  Token parser(Json json) => Token.fromJson(json);
 
   @override
-  Token find(String value) {
-    // TODO: implement find
-    throw UnimplementedError();
-  }
+  String get primary => 'token';
 
   @override
-  bool insert(Token model) {
-    // TODO: implement insert
-    throw UnimplementedError();
-  }
-
-  @override
-  List<Token> select() {
-    // TODO: implement select
-    throw UnimplementedError();
-  }
-
-  @override
-  bool update(Token model) {
-    // TODO: implement update
-    throw UnimplementedError();
-  }
+  String get table => 'token';
 }

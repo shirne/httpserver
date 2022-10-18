@@ -10,6 +10,7 @@ class Env {
     this.documentRoot = '',
     this.alias = const <String>[],
     this.isSSL = false,
+    this.type = 'mysql',
     this.hostName = '',
     this.dataport = 3306,
     this.database = '',
@@ -25,6 +26,7 @@ class Env {
           documentRoot: config?.get('default', 'ROOT') ?? '',
           alias: (config?.get('default', 'ALIAS') ?? '').split(' '),
           isSSL: config?.get('default', 'IS_SSL') == '1',
+          type: config?.get('DATABASE', 'TYPE') ?? 'mysql',
           hostName: config?.get('DATABASE', 'HOSTNAME') ?? '',
           dataport:
               int.parse(config?.get('DATABASE', 'DATABASE_PORT') ?? '3306'),
@@ -50,6 +52,8 @@ class Env {
   final List<String> alias;
   final bool isSSL;
   final String hostName;
+
+  final String type;
   final int dataport;
   final String database;
   final String userName;
@@ -61,6 +65,7 @@ class Env {
         'DOMAIN': domain,
         'ALIAS': alias,
         'IS_SSL': isSSL,
+        'TYPE': type,
         'HOSTNAME': hostName,
         'DATABASE': database,
         'USERNAME': userName,
