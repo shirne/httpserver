@@ -30,6 +30,7 @@ Response _echoHandler(Request request) {
 
 void main(List<String> args) async {
   final env = Env();
+
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.tryParse(env.ip) ?? InternetAddress.anyIPv4;
 
@@ -53,6 +54,6 @@ void main(List<String> args) async {
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(env.port);
   final server = await serve(handler, ip, port);
-  print('Server listening on port ${ip.address}:${server.port} '
+  print('Server listening on port ${ip.address}:${server.port} \n'
       'with document root ${env.documentRoot}');
 }

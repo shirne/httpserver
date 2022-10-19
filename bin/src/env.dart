@@ -2,6 +2,13 @@ import 'dart:io';
 
 import 'package:ini/ini.dart';
 
+import 'globals.dart';
+
+enum EnvSource {
+  file,
+  environment,
+}
+
 class Env {
   Env.init({
     this.port = '8080',
@@ -38,8 +45,34 @@ class Env {
   Env.file(String file)
       : this.config(Config.fromStrings(File(file).readAsLinesSync()));
 
-  factory Env() {
-    _instance ??= Env.file('.env');
+  Env.json(Json env)
+      : this.init(
+          port: env['PORT'] ?? '8080',
+          ip: env['IP'] ?? '',
+          domain: env['DOMAIN'] ?? '',
+          documentRoot: env['ROOT'] ?? '',
+          alias: (env['ALIAS'] ?? '').split(' '),
+          isSSL: env['IS_SSL'] == '1',
+          type: env['DATABASE']?['TYPE'] ?? 'mysql',
+          hostName: env['DATABASE']?['HOSTNAME'] ?? '',
+          dataport: int.parse(env['DATABASE']?['DATABASE_PORT'] ?? '3306'),
+          database: env['DATABASE']?['DATABASE'] ?? '',
+          userName: env['DATABASE']?['USERNAME'] ?? '',
+          password: env['DATABASE']?['PASSWORD'] ?? '',
+        );
+
+  Env.environment() : this.json(Platform.environment);
+
+  factory Env([EnvSource src = EnvSource.file]) {
+    switch (src) {
+      case EnvSource.file:
+        _instance ??= Env.file('.env');
+        break;
+      case EnvSource.environment:
+        _instance ??= Env.environment();
+        break;
+    }
+
     return _instance!;
   }
 
