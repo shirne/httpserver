@@ -1,19 +1,28 @@
+import 'dart:io' as io;
+
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-import 'dart:io' as io;
+import '../bin/src/env.dart';
 
 void main() {
-  final port = '8080';
-  final host = 'http://0.0.0.0:$port';
+  final env = Env();
+  final port = env.port;
+  final host = 'http://127.0.0.1:$port';
+  late io.Process p;
 
   setUp(() async {
-    // await TestProcess.start(
-    //   'dart',
-    //   ['run', 'bin/server.dart'],
-    //   environment: {'PORT': port},
-    // );
+    p = await io.Process.start(
+      'dart',
+      ['run', 'bin/server.dart'],
+    );
+    print('server started in process: ${p.pid}');
+
+    // Wait for server to start and print to stdout.
+    await p.stdout.first;
   });
+
+  tearDown(() => p.kill());
 
   test('Root', () async {
     final response = await get(Uri.parse('$host/'));
@@ -32,7 +41,9 @@ void main() {
   });
 
   test('websocket', () async {
-    final webSocket = await io.WebSocket.connect('ws://127.0.0.1:8080');
+    final webSocket = await io.WebSocket.connect(
+      host.replaceFirst('http:', 'ws:'),
+    );
     print(webSocket.readyState);
     webSocket.listen(
       (event) {
