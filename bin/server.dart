@@ -14,8 +14,8 @@ import 'src/socket.dart';
 
 // Configure routes.
 final _router = Router(notFoundHandler: _notFoundHandler)
-  ..all('/post/<action>', (request) => PostController(request).handler())
-  ..all('/user/<action>', (request) => UserController(request).handler())
+  ..mount('/post', (request) => PostController(request).handler())
+  ..mount('/user', (request) => UserController(request).handler())
   ..get('/', (request) => IndexController(request).handler())
   ..get('/echo/<message>', _echoHandler);
 

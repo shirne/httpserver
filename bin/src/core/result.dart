@@ -13,6 +13,20 @@ class Result<T> {
     this.url = '',
   });
 
+  Result.error(
+    this.message, {
+    this.code = -1,
+    this.data,
+    this.url = '',
+  });
+
+  Result.success(
+    this.data, {
+    this.code = 0,
+    this.message = 'ok',
+    this.url = '',
+  });
+
   Map<String, dynamic> toJson() => {
         'code': code,
         'message': message,
