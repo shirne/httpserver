@@ -5,6 +5,7 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_static/shelf_static.dart';
 
+import 'src/controller/auth.dart';
 import 'src/controller/index.dart';
 import 'src/controller/post.dart';
 import 'src/controller/user.dart';
@@ -14,6 +15,7 @@ import 'src/socket.dart';
 
 // Configure routes.
 final _router = Router(notFoundHandler: _notFoundHandler)
+  ..mount('/auth', (request) => AuthController(request).handler())
   ..mount('/post', (request) => PostController(request).handler())
   ..mount('/user', (request) => UserController(request).handler())
   ..get('/', (request) => IndexController(request).handler())
@@ -54,6 +56,9 @@ void main(List<String> args) async {
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(env.port);
   final server = await serve(handler, ip, port);
+
+  server.autoCompress = true;
+
   print('Server listening on port ${ip.address}:${server.port} \n'
       'with document root ${env.documentRoot}');
 }

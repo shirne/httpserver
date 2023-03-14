@@ -55,6 +55,8 @@ class User extends Model<int> {
   final int createTime;
   final int updateTime;
 
+  bool get isValid => id > 0;
+
   @override
   int get primary => id;
 
