@@ -15,6 +15,8 @@ class PostController extends Controller {
           return Response.ok(list().toString());
         case 'view':
           return Response.ok(view().toString());
+        case 'category':
+          return Response.ok(category().toString());
       }
     }
     return Response.ok(index().toString());
@@ -37,5 +39,9 @@ class PostController extends Controller {
       return Result.error('Argument error');
     }
     return Result(data: 'post view $id');
+  }
+
+  Result<String> category() {
+    return Result(data: 'post category');
   }
 }
