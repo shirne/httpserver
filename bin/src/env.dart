@@ -63,10 +63,10 @@ class Env {
 
   Env.environment() : this.json(Platform.environment);
 
-  factory Env([EnvSource src = EnvSource.file]) {
+  factory Env([EnvSource src = EnvSource.file, String? path]) {
     switch (src) {
       case EnvSource.file:
-        _instance ??= Env.file('.env');
+        _instance ??= Env.file(path ?? '.env');
         break;
       case EnvSource.environment:
         _instance ??= Env.environment();
@@ -84,13 +84,30 @@ class Env {
   final String documentRoot;
   final List<String> alias;
   final bool isSSL;
-  final String hostName;
 
   final String type;
+  final String hostName;
   final int dataport;
   final String database;
   final String userName;
   final String password;
+
+  Env copyWith(Json args) {
+    return Env.init(
+      port: args['port'] ?? port,
+      ip: args['ip'] ?? ip,
+      domain: args['domain'] ?? domain,
+      documentRoot: args['root'] ?? documentRoot,
+      alias: args['alias'] ?? alias,
+      isSSL: args['ssl'] ?? args['no-ssl'] ?? isSSL,
+      type: args['type'] ?? type,
+      hostName: args['hostname'] ?? hostName,
+      dataport: args['dataport'] ?? dataport,
+      database: args['database-name'] ?? database,
+      userName: args['username'] ?? userName,
+      password: args['password'] ?? password,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'PORT': port,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -31,7 +32,43 @@ Response _echoHandler(Request request) {
 }
 
 void main(List<String> args) async {
-  final env = Env();
+  final parser = ArgParser()
+    ..addFlag('help', abbr: 'h', negatable: false, help: 'print this helps')
+    ..addOption(
+      'mode',
+      abbr: 'm',
+      help: 'env mode,fetch env from a file or environment',
+    )
+    ..addOption('file', help: 'config file path. defaults ./.env')
+    ..addSeparator('server options')
+    ..addOption('ip', help: 'bind ip address. defaults 0.0.0.0')
+    ..addOption('port', help: 'bind port. defaults 8080')
+    ..addOption('domain', help: 'bind domain.')
+    ..addOption('root', help: 'static file root. defaults ./htdocs')
+    ..addMultiOption('alias', help: 'alia domains.')
+    ..addFlag('ssl', help: 'use ssl or not.')
+    ..addSeparator('database options')
+    ..addOption('database-type', help: 'database type. defaults mysql')
+    ..addOption('hostname', help: 'database hostname.')
+    ..addOption('dataport', help: 'database port')
+    ..addOption('database-name', help: 'database name to connect.')
+    ..addOption('username', help: 'database username.')
+    ..addOption('password', help: 'database password');
+
+  final arguments = parser.parse(args);
+  if (arguments.wasParsed('help')) {
+    print(parser.usage);
+    return;
+  }
+
+  final env = Env(
+    arguments['mode'] == EnvSource.environment.name
+        ? EnvSource.environment
+        : EnvSource.file,
+    arguments['file'],
+  ).copyWith(<String, dynamic>{
+    for (var name in arguments.options) name: arguments[name],
+  });
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.tryParse(env.ip) ?? InternetAddress.anyIPv4;
