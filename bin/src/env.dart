@@ -11,6 +11,7 @@ enum EnvSource {
 
 class Env {
   Env.init({
+    this.isDebug = false,
     this.port = '8080',
     this.ip = '',
     this.domain = '',
@@ -27,6 +28,10 @@ class Env {
 
   Env.config(Config? config)
       : this.init(
+          isDebug: parseBool(
+            config?.get('default', 'DEBUG'),
+            Platform.executable.contains('dart.exe'),
+          ),
           port: config?.get('default', 'PORT') ?? '8080',
           ip: config?.get('default', 'IP') ?? '',
           domain: config?.get('default', 'DOMAIN') ?? '',
@@ -47,6 +52,10 @@ class Env {
 
   Env.json(Json env)
       : this.init(
+          isDebug: parseBool(
+            env['DEBUG'],
+            Platform.executable.contains('dart.exe'),
+          ),
           port: env['PORT'] ?? '8080',
           ip: env['IP'] ?? '',
           domain: env['DOMAIN'] ?? '',
@@ -66,10 +75,10 @@ class Env {
   factory Env([EnvSource src = EnvSource.file, String? path]) {
     switch (src) {
       case EnvSource.file:
-        _instance ??= Env.file(path ?? '.env');
+        _instance = Env.file(path ?? '.env');
         break;
       case EnvSource.environment:
-        _instance ??= Env.environment();
+        _instance = Env.environment();
         break;
     }
 
@@ -78,6 +87,9 @@ class Env {
 
   static Env? _instance;
 
+  static Env get instance => _instance!;
+
+  final bool isDebug;
   final String port;
   final String ip;
   final String domain;
@@ -92,8 +104,16 @@ class Env {
   final String userName;
   final String password;
 
+  static bool parseBool(String? value, [bool defaultValue = false]) {
+    if (value != null && value.isNotEmpty) {
+      return value == '1' || value.toLowerCase() == 'true';
+    }
+    return defaultValue;
+  }
+
   Env copyWith(Json args) {
     return Env.init(
+      isDebug: args['debug'] ?? false,
       port: args['port'] ?? port,
       ip: args['ip'] ?? ip,
       domain: args['domain'] ?? domain,
