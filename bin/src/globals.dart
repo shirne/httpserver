@@ -50,3 +50,18 @@ extension StackTraceExt on StackTrace {
     return castStackTrace(this, lines)!;
   }
 }
+
+extension StringNullExt on String? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+  bool get isNotNullOrEmpty => !isNullOrEmpty;
+}
+
+extension ListNullExt<E> on List<E>? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+  bool get isNotNullOrEmpty => !isNullOrEmpty;
+}
+
+extension MapNullExt<K, E> on Map<K, E>? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+  bool get isNotNullOrEmpty => !isNullOrEmpty;
+}

@@ -48,8 +48,8 @@ class Mysql implements DB {
     DataParser<T>? dataParser,
   }) async {
     final whereStr =
-        (cond?.where.isEmpty ?? true) ? '' : ' WHERE ${cond!.where}';
-    final orderStr = order == null ? '' : ' ORDER BY $order';
+        ((cond?.where).isNullOrEmpty) ? '' : ' WHERE ${cond!.where}';
+    final orderStr = order.isNullOrEmpty ? '' : ' ORDER BY $order';
 
     final sql = 'SELECT $fields FROM `$table` $whereStr $orderStr LIMIT 1';
     final result = await _execute(sql, cond?.params);
@@ -69,10 +69,10 @@ class Mysql implements DB {
     DataParser<T>? dataParser,
   }) async {
     final whereStr =
-        (cond?.where.isEmpty ?? true) ? '' : ' WHERE ${cond!.where}';
-    final orderStr = order == null ? '' : ' ORDER BY $order';
+        ((cond?.where).isNullOrEmpty) ? '' : ' WHERE ${cond!.where}';
+    final orderStr = order.isNullOrEmpty ? '' : ' ORDER BY $order';
     final limitStr =
-        limit == null ? '' : ' LIMIT ${limit.start},{$limit.count}';
+        limit == null ? '' : ' LIMIT ${limit.start},${limit.count}';
 
     final sql = 'SELECT $fields FROM `$table` $whereStr $orderStr $limitStr';
     final result = await _execute(sql, cond?.params);
@@ -87,7 +87,7 @@ class Mysql implements DB {
   @override
   Future<int> count(String table, [Condition? cond]) async {
     final whereStr =
-        (cond?.where.isEmpty ?? true) ? '' : ' WHERE ${cond!.where}';
+        ((cond?.where).isNullOrEmpty) ? '' : ' WHERE ${cond!.where}';
     final sql = 'SELECT count(0) FROM `$table` $whereStr ';
     final result = await _execute(sql, cond?.params);
 
@@ -95,9 +95,9 @@ class Mysql implements DB {
   }
 
   @override
-  Future<bool> insert(String table, Map<String, dynamic> data) async {
-    final fields = [];
-    final values = [];
+  Future<bool> insert(String table, Json data) async {
+    final fields = <String>[];
+    final values = <String>[];
     for (String k in data.keys) {
       fields.add(k);
       values.add('?');
@@ -116,10 +116,10 @@ class Mysql implements DB {
   @override
   Future<bool> update(
     String table,
-    Map<String, dynamic> data, {
+    Json data, {
     required Condition cond,
   }) async {
-    final sets = [];
+    final sets = <String>[];
 
     for (String k in data.keys) {
       sets.add('`$k` = :upk_$k');
