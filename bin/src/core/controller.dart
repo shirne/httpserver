@@ -1,9 +1,14 @@
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
+
+import 'result.dart';
 
 abstract class Controller {
-  final Request request;
-
   bool get needLogin => false;
 
-  Controller(this.request);
+  Router get router;
+
+  Response response(Result result){
+    return Response.ok(result.toString());
+  }
 }

@@ -21,3 +21,5 @@ dev_dependencies:
   http: ^0.13.6
   lints:
   test:
+  shelf_router_generator: ^1.0.6
+  build_runner:

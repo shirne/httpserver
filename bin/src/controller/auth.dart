@@ -1,28 +1,29 @@
 import 'dart:async';
 
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 
 import '../core/controller.dart';
 import '../core/result.dart';
 
+part 'auth.g.dart';
+
 class AuthController extends Controller {
-  AuthController(Request request) : super(request);
+  AuthController() : super();
 
-  FutureOr<Response> handler() async {
-    if (request.url.pathSegments.isNotEmpty) {
-      switch (request.url.pathSegments[0]) {
-        case 'login':
-          return Response.ok(login().toString());
-      }
-    }
-    return Response.ok(index().toString());
+  @Route.post('/index')
+  FutureOr<Response> _index(Request request) {
+    return response(Result(data: 'index'));
   }
 
-  Result<String> index() {
-    return Result(data: 'index');
+  @Route.post('/login')
+  FutureOr<Response> _login(Request request) {
+    return response(Result(data: 'login'));
   }
 
-  Result<String> login() {
-    return Result(data: 'profile');
-  }
+  @Route.all('/<ignored|.*>')
+  Response _notFound(Request request) => Response.notFound('null');
+
+  @override
+  Router get router => _$AuthControllerRouter(this);
 }

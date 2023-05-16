@@ -1,28 +1,32 @@
 import 'dart:async';
 
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 
 import '../core/controller.dart';
 import '../core/result.dart';
 
+part 'user.g.dart';
+
 class UserController extends Controller {
-  UserController(Request request) : super(request);
+  UserController() : super();
 
-  FutureOr<Response> handler() async {
-    if (request.url.pathSegments.isNotEmpty) {
-      switch (request.url.pathSegments[0]) {
-        case 'profile':
-          return Response.ok(profile().toString());
-      }
-    }
-    return Response.ok(index().toString());
+  @override
+  bool get needLogin => true;
+
+  @Route.get('/index')
+  FutureOr<Response> _index(Request request) {
+    return response(Result(data: 'index'));
   }
 
-  Result<String> index() {
-    return Result(data: 'index');
+  @Route.get('/profile')
+  FutureOr<Response> _profile(Request request) {
+    return response(Result(data: 'profile'));
   }
 
-  Result<String> profile() {
-    return Result(data: 'profile');
-  }
+  @Route.all('/<ignored|.*>')
+  Response _notFound(Request request) => Response.notFound('null');
+
+  @override
+  Router get router => _$UserControllerRouter(this);
 }

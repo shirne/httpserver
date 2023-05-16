@@ -3,33 +3,12 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
-import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_static/shelf_static.dart';
 
-import 'src/controller/auth.dart';
-import 'src/controller/index.dart';
-import 'src/controller/post.dart';
-import 'src/controller/user.dart';
 import 'src/core/middleware.dart';
 import 'src/env.dart';
+import 'src/service.dart';
 import 'src/socket.dart';
-
-// Configure routes.
-final _router = Router(notFoundHandler: _notFoundHandler)
-  ..mount('/auth', (request) => AuthController(request).handler())
-  ..mount('/post', (request) => PostController(request).handler())
-  ..mount('/user', (request) => UserController(request).handler())
-  ..get('/', (request) => IndexController(request).handler())
-  ..get('/echo/<message>', _echoHandler);
-
-Response _notFoundHandler(Request req) {
-  return Response.notFound('${req.url} not found!\n');
-}
-
-Response _echoHandler(Request request) {
-  final message = request.params['message'];
-  return Response.ok('$message\n');
-}
 
 void main(List<String> args) async {
   final parser = ArgParser()
@@ -76,7 +55,7 @@ void main(List<String> args) async {
   final application = Pipeline()
       .addMiddleware(authMiddleware)
       .addMiddleware(logRequests())
-      .addHandler(_router);
+      .addHandler(Service().handler);
 
   final staticFileHandler = createStaticHandler(
     env.documentRoot,

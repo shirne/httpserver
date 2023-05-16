@@ -1,47 +1,43 @@
 import 'dart:async';
 
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 
 import '../core/controller.dart';
 import '../core/result.dart';
 
+part 'post.g.dart';
+
 class PostController extends Controller {
-  PostController(Request request) : super(request);
+  PostController() : super();
 
-  FutureOr<Response> handler() async {
-    if (request.url.pathSegments.isNotEmpty) {
-      switch (request.url.pathSegments[0]) {
-        case 'list':
-          return Response.ok(list().toString());
-        case 'view':
-          return Response.ok(view().toString());
-        case 'category':
-          return Response.ok(category().toString());
-      }
+  @Route.get('/index')
+  FutureOr<Response> _index(Request request) {
+    return response(Result(data: 'post index'));
+  }
+
+  @Route.get('/list')
+  FutureOr<Response> _list(Request request) {
+    return response(Result(data: 'post list'));
+  }
+
+  @Route.get('/view/<id|\\d+>')
+  FutureOr<Response> _view(Request request, String id) {
+    final intId = int.parse(id);
+    if (intId <= 0) {
+      return response(Result.error('Argument error'));
     }
-    return Response.ok(index().toString());
+    return response(Result(data: 'post view $intId'));
   }
 
-  Result<String> index() {
-    return Result(data: 'post index');
+  @Route.get('/category')
+  FutureOr<Response> _category(Request request) {
+    return response(Result(data: 'post category'));
   }
 
-  Result<String> list() {
-    return Result(data: 'post list');
-  }
+  @Route.all('/<ignored|.*>')
+  Response _notFound(Request request) => Response.notFound('null');
 
-  Result<String> view() {
-    if (request.url.pathSegments.length < 2) {
-      return Result.error('Argument error');
-    }
-    final id = int.tryParse(request.url.pathSegments[1]) ?? 0;
-    if (id <= 0) {
-      return Result.error('Argument error');
-    }
-    return Result(data: 'post view $id');
-  }
-
-  Result<String> category() {
-    return Result(data: 'post category');
-  }
+  @override
+  Router get router => _$PostControllerRouter(this);
 }

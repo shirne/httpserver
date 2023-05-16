@@ -105,8 +105,8 @@ class Env {
   final String password;
 
   static bool parseBool(String? value, [bool defaultValue = false]) {
-    if (value != null && value.isNotEmpty) {
-      return value == '1' || value.toLowerCase() == 'true';
+    if (value.isNotNullOrEmpty) {
+      return value == '1' || value!.toLowerCase() == 'true';
     }
     return defaultValue;
   }
