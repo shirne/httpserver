@@ -11,7 +11,7 @@ class CategoryModel extends Model<int> {
     this.icon = '',
     this.image = '',
     this.sort = 0,
-    Map<String, String>? props,
+    List<String>? props,
     List<int>? fields,
     this.pagesize = 10,
     this.channelMode = false,
@@ -22,7 +22,7 @@ class CategoryModel extends Model<int> {
     this.isAttachments = false,
     List<String>? keywords,
     this.description = '',
-  })  : props = props ?? <String, String>{},
+  })  : props = props ?? <String>[],
         fields = fields ?? <int>[],
         keywords = keywords ?? <String>[];
 
@@ -30,9 +30,23 @@ class CategoryModel extends Model<int> {
       : this(
           id: json['id'] ?? 0,
           pid: json['pid'] ?? 0,
+          short: json['short'] ?? '',
           title: json['title'] ?? '',
-          name: json['name'] ?? 'name',
-          icon: json['icon'] ?? 'icon',
+          name: json['name'] ?? '',
+          icon: json['icon'] ?? '',
+          image: json['image'] ?? '',
+          sort: json['sort'] ?? 0,
+          props: parseJson(json['props']),
+          fields: json['fields'],
+          pagesize: json['pagesize'] ?? 0,
+          channelMode: json['channel_mode'] ?? false,
+          status: json['status'] ?? 0,
+          isLock: json['is_lock'] ?? false,
+          isComment: json['is_comment'] ?? false,
+          isImages: json['is_images'] ?? false,
+          isAttachments: json['is_attachments'] ?? false,
+          keywords: json['keywords'],
+          description: json['description'] ?? '',
         );
 
   final int id;
@@ -43,7 +57,7 @@ class CategoryModel extends Model<int> {
   final String icon;
   final String image;
   final int sort;
-  final Map<String, String> props;
+  final List<String> props;
   final List<int> fields;
   final int pagesize;
   final bool channelMode;
