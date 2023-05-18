@@ -15,12 +15,18 @@ Router _$UserControllerRouter(UserController service) {
   );
   router.add(
     'GET',
-    r'/profile',
-    service._profile,
+    r'/detail/<id|\d+>',
+    service._detail,
   );
-  router.all(
-    r'/<ignored|.*>',
-    service._notFound,
+  router.add(
+    'POST',
+    r'/create',
+    service._create,
+  );
+  router.add(
+    'POST',
+    r'/update/<id|\d+>',
+    service._update,
   );
   return router;
 }

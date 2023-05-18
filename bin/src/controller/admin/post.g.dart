@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'post.dart';
 
 // **************************************************************************
 // ShelfRouterGenerator
 // **************************************************************************
 
-Router _$UserControllerRouter(UserController service) {
+Router _$PostControllerRouter(PostController service) {
   final router = Router(routeHandler: service.init);
   router.add(
     'GET',
@@ -15,12 +15,18 @@ Router _$UserControllerRouter(UserController service) {
   );
   router.add(
     'GET',
-    r'/profile',
-    service._profile,
+    r'/detail/<id|\d+>',
+    service._detail,
   );
-  router.all(
-    r'/<ignored|.*>',
-    service._notFound,
+  router.add(
+    'POST',
+    r'/create',
+    service._create,
+  );
+  router.add(
+    'POST',
+    r'/update/<id|\d+>',
+    service._update,
   );
   return router;
 }

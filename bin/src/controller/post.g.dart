@@ -7,7 +7,7 @@ part of 'post.dart';
 // **************************************************************************
 
 Router _$PostControllerRouter(PostController service) {
-  final router = Router();
+  final router = Router(routeHandler: service.init);
   router.add(
     'GET',
     r'/index',

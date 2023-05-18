@@ -53,8 +53,8 @@ void main(List<String> args) async {
   final ip = InternetAddress.tryParse(env.ip) ?? InternetAddress.anyIPv4;
 
   final application = Pipeline()
-      .addMiddleware(authMiddleware)
       .addMiddleware(logRequests())
+      .addMiddleware(authMiddleware)
       .addHandler(Service().handler);
 
   final staticFileHandler = createStaticHandler(

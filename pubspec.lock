@@ -396,18 +396,20 @@ packages:
   shelf_router:
     dependency: "direct main"
     description:
-      name: shelf_router
-      sha256: f5e5d492440a7fb165fe1e2e1a623f31f734d3370900070b2b1e0d0428d59864
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "pkgs/shelf_router"
+      ref: "86aec19482ae5c11f03813a7aac40e28203cd9eb"
+      resolved-ref: "86aec19482ae5c11f03813a7aac40e28203cd9eb"
+      url: "git@github.com:shirne/shelf.git"
+    source: git
     version: "1.1.4"
   shelf_router_generator:
     dependency: "direct dev"
     description:
-      name: shelf_router_generator
-      sha256: "13677f301261272e0d878c58298aa6ec228141f18802c33d3c52a1fd789b7f5f"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "pkgs/shelf_router_generator"
+      ref: "86aec19482ae5c11f03813a7aac40e28203cd9eb"
+      resolved-ref: "86aec19482ae5c11f03813a7aac40e28203cd9eb"
+      url: "git@github.com:shirne/shelf.git"
+    source: git
     version: "1.0.6"
   shelf_static:
     dependency: "direct main"

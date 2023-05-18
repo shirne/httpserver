@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'auth.dart';
 
 // **************************************************************************
 // ShelfRouterGenerator
 // **************************************************************************
 
-Router _$UserControllerRouter(UserController service) {
+Router _$AuthControllerRouter(AuthController service) {
   final router = Router(routeHandler: service.init);
   router.add(
     'GET',
@@ -15,12 +15,18 @@ Router _$UserControllerRouter(UserController service) {
   );
   router.add(
     'GET',
-    r'/profile',
-    service._profile,
+    r'/captcha',
+    service._captcha,
   );
-  router.all(
-    r'/<ignored|.*>',
-    service._notFound,
+  router.add(
+    'POST',
+    r'/login',
+    service._login,
+  );
+  router.add(
+    'POST',
+    r'/refresh',
+    service._refresh,
   );
   return router;
 }

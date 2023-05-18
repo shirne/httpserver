@@ -7,7 +7,7 @@ part of 'auth.dart';
 // **************************************************************************
 
 Router _$AuthControllerRouter(AuthController service) {
-  final router = Router();
+  final router = Router(routeHandler: service.init);
   router.add(
     'POST',
     r'/index',

@@ -1,22 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'router.dart';
 
 // **************************************************************************
 // ShelfRouterGenerator
 // **************************************************************************
 
-Router _$UserControllerRouter(UserController service) {
+Router _$AdminRouterRouter(AdminRouter service) {
   final router = Router(routeHandler: service.init);
-  router.add(
-    'GET',
-    r'/index',
-    service._index,
+  router.mount(
+    r'/auth/',
+    service._auth,
   );
-  router.add(
-    'GET',
-    r'/profile',
-    service._profile,
+  router.mount(
+    r'/post/',
+    service._post,
+  );
+  router.mount(
+    r'/user/',
+    service._user,
+  );
+  router.mount(
+    r'/admin/',
+    service._admin,
   );
   router.all(
     r'/<ignored|.*>',

@@ -7,7 +7,7 @@ part of 'service.dart';
 // **************************************************************************
 
 Router _$ServiceRouter(Service service) {
-  final router = Router();
+  final router = Router(routeHandler: service.init);
   router.add(
     'GET',
     r'/echo/<message>',
@@ -24,6 +24,10 @@ Router _$ServiceRouter(Service service) {
   router.mount(
     r'/user/',
     service._user,
+  );
+  router.mount(
+    r'/admin/',
+    service._admin,
   );
   router.all(
     r'/<ignored|.*>',
